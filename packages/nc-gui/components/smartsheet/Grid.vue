@@ -16,6 +16,7 @@ import {
   ReadonlyInj,
   ReloadViewDataHookInj,
   createEventHook,
+  enumColor,
   extractPkFromRow,
   inject,
   message,
