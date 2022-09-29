@@ -89,3 +89,4 @@ mongod
 shared.json
 /scripts/Cypress/screenshots
 /scripts/exp/
+test_noco.db
