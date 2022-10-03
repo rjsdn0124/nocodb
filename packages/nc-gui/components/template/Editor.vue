@@ -61,7 +61,7 @@ const { addTab } = useTabs()
 
 const { sqlUis, project, loadTables } = useProject()
 
-const sqlUi = ref(meta.value?.base_id ? sqlUis.value[meta.value?.base_id] : Object.values(sqlUis.value)[0])
+const sqlUi = ref(sqlUis.value[baseId] || Object.values(sqlUis.value)[0])
 
 const hasSelectColumn = ref<boolean[]>([])
 
@@ -441,23 +441,24 @@ async function importTemplate() {
             }
           }
         }
-        const tableMeta = await $api.base.tableCreate(project?.value?.id as string, baseId as string, {
+        const createdTable = await $api.base.tableCreate(project?.value?.id as string, baseId as string, {
           table_name: table.ref_table_name,
           // leave title empty to get a generated one based on ref_table_name
           title: '',
           columns: table.columns || [],
         })
-        table.title = tableMeta.title
+        table.id = createdTable.id
+        table.title = createdTable.title
 
         // open the first table after import
         if (tab.id === '' && tab.title === '') {
-          tab.id = tableMeta.id as string
-          tab.title = tableMeta.title as string
+          tab.id = createdTable.id as string
+          tab.title = createdTable.title as string
         }
 
         // set primary value
-        if (tableMeta?.columns?.[0]?.id) {
-          await $api.dbTableColumn.primaryColumnSet(tableMeta.columns[0].id as string)
+        if (createdTable?.columns?.[0]?.id) {
+          await $api.dbTableColumn.primaryColumnSet(createdTable.columns[0].id as string)
         }
       }
       // bulk insert data
