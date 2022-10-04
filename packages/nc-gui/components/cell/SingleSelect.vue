@@ -26,11 +26,11 @@ const vModel = computed({
   set: (val) => emit('update:modelValue', val || null),
 })
 
-const options = computed<SelectOptionsType[]>(() => {
+const options = computed<(SelectOptionsType['options'])[]>(() => {
   if (column?.value.colOptions) {
     const opts = column.value.colOptions
       ? // todo: fix colOptions type, options does not exist as a property
-        (column.value.colOptions as any).options.filter((el: SelectOptionsType) => el.title !== '') || []
+        (column.value.colOptions as any).options.filter((el: SelectOptionsType['options']) => el.title !== '') || []
       : []
     for (const op of opts.filter((el: any) => el.order === null)) {
       op.title = op.title.replace(/^'/, '').replace(/'$/, '')
