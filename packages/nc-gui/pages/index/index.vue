@@ -1,13 +1,15 @@
 <script lang="ts" setup>
-import { useRoute, useSidebar } from '#imports'
+import { useGlobal, useRoute, useSidebar } from '#imports'
 
 const route = useRoute()
+
+const { signedIn } = useGlobal()
 
 useSidebar('nc-left-sidebar', { hasSidebar: false })
 </script>
 
 <template>
-  <NuxtLayout>
+  <NuxtLayout v-if="signedIn">
     <div
       class="min-h-[calc(100vh_-_var(--header-height))] bg-primary bg-opacity-5 flex flex-wrap justify-between xl:flex-nowrap gap-6 py-6 px-4 pt-65px md:(px-12)"
     >
@@ -35,5 +37,8 @@ useSidebar('nc-left-sidebar', { hasSidebar: false })
         </template>
       </div>
     </div>
+  </NuxtLayout>
+  <NuxtLayout v-else name="auth">
+    <NuxtPage />
   </NuxtLayout>
 </template>
