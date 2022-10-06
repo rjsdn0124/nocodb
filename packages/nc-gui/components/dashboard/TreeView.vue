@@ -18,7 +18,7 @@ import {
   useUIPermission,
   watchEffect,
 } from '#imports'
-import { TabType } from '~/lib'
+import { ClientType, TabType } from '~/lib'
 import MdiView from '~icons/mdi/eye-circle-outline'
 import MdiTableLarge from '~icons/mdi/table-large'
 
@@ -37,6 +37,8 @@ const { isUIAllowed } = useUIPermission()
 const [searchActive, toggleSearchActive] = useToggle()
 
 const isLocked = inject('TreeViewIsLockedInj')
+
+const toggleDialog = inject(ToggleDialogInj, () => {})
 
 let key = $ref(0)
 
@@ -320,6 +322,35 @@ function openTableCreateDialog(baseId?: string) {
                       {{ $t('labels.requestDataSource') }}
                     </a>
                   </a-menu-item>
+
+                  <a-menu-divider class="my-0" />
+
+                  <a-menu-item-group title="Connect to new datasource" class="!px-0 !mx-0">
+                    <a-menu-item key="connect-new-source" @click="toggleDialog(true, 'dataSources', ClientType.MYSQL)">
+                      <div class="color-transition nc-project-menu-item group">
+                        <LogosMysql class="group-hover:text-accent" />
+                        MySQL
+                      </div>
+                    </a-menu-item>
+                    <a-menu-item key="connect-new-source" @click="toggleDialog(true, 'dataSources', ClientType.PG)">
+                      <div class="color-transition nc-project-menu-item group">
+                        <LogosPostgresql class="group-hover:text-accent" />
+                        Postgres
+                      </div>
+                    </a-menu-item>
+                    <a-menu-item key="connect-new-source" @click="toggleDialog(true, 'dataSources', ClientType.SQLITE)">
+                      <div class="color-transition nc-project-menu-item group">
+                        <VscodeIconsFileTypeSqlite class="group-hover:text-accent" />
+                        SQLite
+                      </div>
+                    </a-menu-item>
+                    <a-menu-item key="connect-new-source" @click="toggleDialog(true, 'dataSources', ClientType.MSSQL)">
+                      <div class="color-transition nc-project-menu-item group">
+                        <SimpleIconsMicrosoftsqlserver class="group-hover:text-accent" />
+                        MSSQL
+                      </div>
+                    </a-menu-item>
+                  </a-menu-item-group>
                 </a-menu>
               </template>
             </a-dropdown>
@@ -394,10 +425,9 @@ function openTableCreateDialog(baseId?: string) {
                 <a-collapse v-else v-model:activeKey="activeKey" expand-icon-position="right" :bordered="false" accordion ghost>
                   <a-collapse-panel :key="index">
                     <template #header>
-                      <div v-if="index !== '0'" class="flex items-center gap-2">
-                        <MdiDatabaseOutline />
+                      <div v-if="index !== '0'" class="flex items-center gap-2 text-gray-500 font-weightd">
+                        <GeneralBaseLogo :base-type="base.type" />
                         {{ base.alias || '' }}
-                        ({{ base.type || '' }})
                       </div>
                     </template>
                     <div
@@ -593,10 +623,6 @@ function openTableCreateDialog(baseId?: string) {
 
     <div class="flex items-start flex-col justify-start px-2 py-3 gap-2">
       <LazyGeneralAddBaseButton
-        class="color-transition py-1.5 px-2 text-primary font-bold cursor-pointer select-none hover:text-accent"
-      />
-
-      <LazyGeneralShareBaseButton
         class="color-transition py-1.5 px-2 text-primary font-bold cursor-pointer select-none hover:text-accent"
       />
 
