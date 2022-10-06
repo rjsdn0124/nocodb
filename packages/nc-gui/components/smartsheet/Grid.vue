@@ -485,6 +485,7 @@ watch([() => selected.row, () => selected.col], ([row, col]) => {
                     :data-key="rowIndex + columnObj.id"
                     :data-col="columnObj.id"
                     :data-title="columnObj.title"
+                    :data-pw="`cell-${columnObj.title}-${rowIndex}`"
                     @click="selectCell(rowIndex, colIndex)"
                     @dblclick="makeEditable(row, columnObj)"
                     @mousedown="startSelectRange($event, rowIndex, colIndex)"

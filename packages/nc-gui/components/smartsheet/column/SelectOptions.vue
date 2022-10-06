@@ -132,7 +132,12 @@ watch(inputs, () => {
     <Draggable :list="options" item-key="id" handle=".nc-child-draggable-icon">
       <template #item="{ element, index }">
         <div class="flex py-1 items-center nc-select-option">
-          <MdiDragVertical v-if="!isKanban" small class="nc-child-draggable-icon handle" />
+          <MdiDragVertical
+            v-if="!isKanban"
+            small
+            class="nc-child-draggable-icon handle"
+            :data-pw="`select-option-column-handle-icon-${element.title}`"
+          />
           <a-dropdown
             v-model:visible="colorMenus[index]"
             :trigger="['click']"
@@ -148,9 +153,20 @@ watch(inputs, () => {
             <MdiArrowDownDropCircle :style="{ 'font-size': '1.5em', 'color': element.color }" class="mr-2" />
           </a-dropdown>
 
-          <a-input ref="inputs" v-model:value="element.title" class="caption" @change="optionChanged(element.id)" />
+          <a-input
+            ref="inputs"
+            v-model:value="element.title"
+            class="caption"
+            :data-pw="`select-column-option-input-${index}`"
+            @change="optionChanged(element.id)"
+          />
 
-          <MdiClose class="ml-2" :style="{ color: 'red' }" @click="removeOption(index)" />
+          <MdiClose
+            class="ml-2"
+            :style="{ color: 'red' }"
+            :data-pw="`select-column-option-remove-${index}`"
+            @click="removeOption(index)"
+          />
         </div>
       </template>
       <template #footer>
