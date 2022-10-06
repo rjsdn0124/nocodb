@@ -777,7 +777,7 @@ jobs:
           working-directory: ./
           run: docker-compose -f ./scripts/docker-compose-cypress.yml up -d
         - name: run frontend
-          working-directory: ./nc-gui
+          working-directory: ./packages/nc-gui
           run: ANT_MESSAGE_DURATION=0.2 npm run dev
         - name: Run backend
           working-directory: ./packages/nocodb
