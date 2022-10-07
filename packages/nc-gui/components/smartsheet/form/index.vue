@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Draggable from 'vuedraggable'
+import type { FormColumnType } from 'nocodb-sdk'
 import { RelationTypes, UITypes, ViewTypes, getSystemColumns, isVirtualCol } from 'nocodb-sdk'
 import {
   ActiveViewInj,
@@ -335,7 +336,7 @@ async function submitCallback() {
   showColumnDropdown.value = false
 }
 
-const updateColMeta = useDebounceFn(async (col: Record<string, any>) => {
+const updateColMeta = useDebounceFn(async (col: FormColumnType) => {
   if (col.id) {
     try {
       await $api.dbView.formColumnUpdate(col.id, col)
