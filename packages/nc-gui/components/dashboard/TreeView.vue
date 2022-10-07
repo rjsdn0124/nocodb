@@ -62,6 +62,8 @@ const filteredTables = $computed(() =>
   tables.value?.filter((table) => !filterQuery || table.title.toLowerCase().includes(filterQuery.toLowerCase())),
 )
 
+const filteredBases = $computed(() => bases.value.filter((base) => base.enabled))
+
 let sortable: Sortable
 
 // todo: replace with vuedraggable
@@ -358,7 +360,7 @@ function openTableCreateDialog(baseId?: string) {
 
           <div v-if="tables.length" class="transition-height duration-200 overflow-hidden">
             <div :key="key" ref="menuRef" class="border-none sortable-list">
-              <div v-for="[index, base] of Object.entries(bases)" :key="`${base.id}-index`">
+              <div v-for="[index, base] of Object.entries(filteredBases)" :key="`${base.id}-index`">
                 <div v-if="index === '0'">
                   <div
                     v-for="table of tables.filter((table) => table.base_id === base.id)"
