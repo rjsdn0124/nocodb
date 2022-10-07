@@ -780,10 +780,16 @@ jobs:
           run: npm run start:web &
         - name: Run backend
           working-directory: ./packages/nocodb
-          run: npm run watch:run:playwright
+          run: npm run watch:run:playwright &
         - name: Wait for frontend
           run: |
             while ! curl --output /dev/null --silent --head --fail http://localhost:3000/_nuxt/assets/img/icons/512x512-trans.png; do
+              printf '.'
+              sleep 2
+            done
+        - name: Wait for backend
+          run: |
+            while ! curl --output /dev/null --silent --head --fail http://localhost:8080; do
               printf '.'
               sleep 2
             done
