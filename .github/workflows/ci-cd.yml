@@ -780,7 +780,7 @@ jobs:
           run: npm run start:web &
         - name: Run backend
           working-directory: ./packages/nocodb
-          run: npm run watch:run:playwright &
+          run: npm run watch:run:playwright
         - name: Wait for frontend
           run: |
             while ! curl --output /dev/null --silent --head --fail http://localhost:3000/_nuxt/assets/img/icons/512x512-trans.png; do
@@ -800,6 +800,6 @@ jobs:
           if: always()
           with:
             name: playwright-report
-            path: playwright-report/
+            path: ./scripts/playwright/output/
             retention-days: 30
         
