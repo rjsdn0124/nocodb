@@ -801,7 +801,7 @@ jobs:
           run: npx playwright install --with-deps
         - name: Run Playwright tests
           working-directory: ./scripts/playwright
-          run: npx playwright test --workers=2
+          run: npx playwright test --workers=3
         - uses: actions/upload-artifact@v2
           if: always()
           with:
